@@ -8,6 +8,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity {
     EditText etNotes;
@@ -23,21 +24,23 @@ public class MainActivity extends AppCompatActivity {
         rgStars = (RadioGroup)findViewById(R.id.radioGroupStars);
         btnInsert = (Button)findViewById(R.id.buttonInsertNote);
         btnShow = (Button)findViewById(R.id.buttonShowList);
-        int selectedButtonId = rgStars.getCheckedRadioButtonId();
-        // Get the radio button object from the Id we had gotten above
-        final RadioButton rb = (RadioButton) findViewById(selectedButtonId);
+
 
 
         btnInsert.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 DBHelper db = new DBHelper(MainActivity.this);
+                int selectedButtonId = rgStars.getCheckedRadioButtonId();
+                // Get the radio button object from the Id we had gotten above
+                RadioButton rb = (RadioButton) findViewById(selectedButtonId);
 
                 // Insert a task
                 String notes = etNotes.getText().toString();
                 int stars = Integer.parseInt(rb.getText().toString());
                 db.insertNote(notes,stars);
                 db.close();
+                Toast.makeText(MainActivity.this, "Inserted", Toast.LENGTH_SHORT).show();
             }
         });
 
